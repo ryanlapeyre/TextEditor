@@ -5,8 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TextEditor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="480" Width="640">
+        Title="MainWindow" Height="480" Width="640" MinHeight="480" MinWidth="640">
     <Grid>
         
+        <TextBox Grid.Row="0" Grid.Column="0" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"></TextBox>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top" >
+                <MenuItem Header="_File">
+                    <MenuItem Header="_New" InputGestureText="Ctrl+F"  />
+                    <!-- Click="AppExit_Click" -->
+                    <MenuItem Header="_Open"  />
+                    <MenuItem Header="_Save" />
+                    <MenuItem Header="_Save As" />
+                    <Separator />
+                    <MenuItem Header="_Exit" />
+                </MenuItem>
+                <MenuItem Header="_Help">
+                    <MenuItem Header="_About" />
+                </MenuItem>
+            </Menu>
+            
+            <!--
+                                <MenuItem.Icon>
+                        <Image Source="/WpfTutorialSamples;component/Images/user.png" />
+                    </MenuItem.Icon>
+            
+                            </MenuItem>
+                <MenuItem Header="_Show groups" IsCheckable="True" IsChecked="True" />
+            </MenuItem>
+            
+            -->
+            <TextBox AcceptsReturn="True" />
+        </DockPanel>
+
     </Grid>
 </Window>

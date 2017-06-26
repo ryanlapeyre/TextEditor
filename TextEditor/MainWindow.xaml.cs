@@ -17,7 +17,7 @@ namespace TextEditor
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    /// </summary> http://www.wpf-tutorial.com/common-interface-controls/menu-control/
     public partial class MainWindow : Window
     {
         public MainWindow()
