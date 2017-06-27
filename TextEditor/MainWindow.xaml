@@ -8,7 +8,7 @@
         Title="MainWindow" Height="480" Width="640" MinHeight="480" MinWidth="640">
     <Grid>
         
-        <TextBox Grid.Row="0" Grid.Column="0" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"></TextBox>
+        <TextBox Grid.Row="0" Grid.Column="0"  ></TextBox>
         <DockPanel>
             <Menu DockPanel.Dock="Top" >
                 <MenuItem Header="_File">
@@ -35,7 +35,7 @@
             </MenuItem>
             
             -->
-            <TextBox AcceptsReturn="True" />
+            <TextBox AcceptsReturn="True" AcceptsTab="True" SpellCheck.IsEnabled="True" Language="en-US" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
         </DockPanel>
 
     </Grid>
