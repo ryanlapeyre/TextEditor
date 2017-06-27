@@ -31,13 +31,15 @@ namespace TextEditor
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = false;
             openFileDialog.Filter = "text files (*.txt)|*.txt";
+            openFileDialog.AddExtension = true;
             openFileDialog.CheckFileExists = true;
             openFileDialog.CheckPathExists = true;
             openFileDialog.Title = "Please Select Your File";
             openFileDialog.ShowDialog();
-            if(!string.IsNullOrEmpty(openFileDialog.FileName))
+            
+            if (!string.IsNullOrEmpty(openFileDialog.FileName))
             {
-               // openFileDialog.OpenFile();
+                TextDocument.ReadText(textBox, openFileDialog.FileName);
             }
             else
             {
@@ -50,21 +52,44 @@ namespace TextEditor
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "text files (*.txt)|*.txt";
-            saveFileDialog.CheckFileExists = true;
             saveFileDialog.CheckPathExists = true;
+            saveFileDialog.AddExtension = true;
             saveFileDialog.Title = "Please Select Your File To Save Over";
             saveFileDialog.ShowDialog();
             if (!string.IsNullOrEmpty(saveFileDialog.FileName))
             {
-                // saveFileDialog.OpenFile();
+                TextDocument.SaveText(textBox, saveFileDialog.FileName);
+            }
+            else
+            {
+                return;    
+            }
+
+        }
+
+        private void NewFileAction(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "text files (*.txt)|*.txt";
+            saveFileDialog.CheckPathExists = true;
+            saveFileDialog.CheckFileExists = true;
+            saveFileDialog.AddExtension = true;
+            saveFileDialog.Title = "Please Select Your File To Save Over";
+
+            if (!saveFileDialog.CheckFileExists)
+            {
+                saveFileDialog.ShowDialog();
+                TextDocument.SaveText(textBox, saveFileDialog.FileName);
             }
             else
             {
                 return;
             }
 
-        }
+            TextDocument.NewTextFile(textBox);
 
+
+        }
 
         private void CloseCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
