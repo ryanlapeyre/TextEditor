@@ -76,14 +76,19 @@ namespace TextEditor
             saveFileDialog.AddExtension = true;
             saveFileDialog.Title = "Please Select Your File To Save Over";
 
-            if (!saveFileDialog.CheckFileExists)
+            if(!string.IsNullOrEmpty(textBox.Text))
             {
+                MessageBox.Show("Please think about saving your data before creating a new document");
                 saveFileDialog.ShowDialog();
-                TextDocument.SaveText(textBox, saveFileDialog.FileName);
-            }
-            else
-            {
-                return;
+                if (!string.IsNullOrEmpty(saveFileDialog.FileName))
+                {
+                    TextDocument.SaveText(textBox, saveFileDialog.FileName);
+                }
+                else
+                {
+                    return;
+                }
+
             }
 
             TextDocument.NewTextFile(textBox);
