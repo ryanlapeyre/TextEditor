@@ -39,7 +39,7 @@ namespace TextEditor
             
             if (!string.IsNullOrEmpty(openFileDialog.FileName))
             {
-                TextDocument.ReadText(textBox, openFileDialog.FileName);
+                TextDocument.ReadText(textBox, openFileDialog.FileName);//turn into object method
             }
             else
             {
@@ -58,7 +58,7 @@ namespace TextEditor
             saveFileDialog.ShowDialog();
             if (!string.IsNullOrEmpty(saveFileDialog.FileName))
             {
-                TextDocument.SaveText(textBox, saveFileDialog.FileName);
+                TextDocument.SaveText(textBox, saveFileDialog.FileName);//turn into object method
             }
             else
             {
@@ -76,25 +76,55 @@ namespace TextEditor
             saveFileDialog.AddExtension = true;
             saveFileDialog.Title = "Please Select Your File To Save Over";
 
-            if(!string.IsNullOrEmpty(textBox.Text))
+            if(!string.IsNullOrEmpty(textBox.Text))//turn into object method
             {
                 MessageBox.Show("Please think about saving your data before creating a new document");
                 saveFileDialog.ShowDialog();
                 if (!string.IsNullOrEmpty(saveFileDialog.FileName))
                 {
-                    TextDocument.SaveText(textBox, saveFileDialog.FileName);
+                    TextDocument.SaveText(textBox, saveFileDialog.FileName); //turn into object method
                 }
                 else
                 {
+                    TextDocument.NewTextFile(textBox);
                     return;
                 }
 
             }
-
-            TextDocument.NewTextFile(textBox);
-
-
+            TextDocument.NewTextFile(textBox);       
         }
+
+        private void SaveFileAction(object sender, RoutedEventArgs e) //modify this bro
+        {
+            //this will actually need the document object, since we'll have to recall the filename 
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            //saveFileDialog.FileName = where we fill in the filename 
+
+            saveFileDialog.Filter = "text files (*.txt)|*.txt";
+            saveFileDialog.CheckPathExists = true;
+            saveFileDialog.CheckFileExists = true;
+            saveFileDialog.AddExtension = true;
+            saveFileDialog.Title = "Please Select Your File To Save Over";
+
+            if (!string.IsNullOrEmpty(textBox.Text))//turn into object method
+            {
+                MessageBox.Show("Please think about saving your data before creating a new document");
+                saveFileDialog.ShowDialog();
+                if (!string.IsNullOrEmpty(saveFileDialog.FileName))
+                {
+                    TextDocument.SaveText(textBox, saveFileDialog.FileName); //turn into object method
+                }
+                else
+                {
+                    TextDocument.NewTextFile(textBox);
+                    return;
+                }
+
+            }
+            TextDocument.NewTextFile(textBox);
+        }
+
 
         private void CloseCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
