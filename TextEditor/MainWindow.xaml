@@ -14,9 +14,9 @@
                 <MenuItem Header="_File">
                     <MenuItem Header="_New" InputGestureText="Ctrl+F"  />
                     <!-- Click="AppExit_Click" -->
-                    <MenuItem Header="_Open"  />
+                    <MenuItem Header="_Open" Click="OpenAction"  />
                     <MenuItem Header="_Save" />
-                    <MenuItem Header="_Save As" />
+                    <MenuItem Header="_Save As" Click="SaveAsAction" />
                     <Separator />
                     <MenuItem Header="_Exit" />
                 </MenuItem>
