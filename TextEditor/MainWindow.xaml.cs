@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,8 @@ namespace TextEditor
     /// </summary> http://www.wpf-tutorial.com/common-interface-controls/menu-control/
     public partial class MainWindow : Window
     {
+        TextDocument textDocument;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -36,10 +39,11 @@ namespace TextEditor
             openFileDialog.CheckPathExists = true;
             openFileDialog.Title = "Please Select Your File";
             openFileDialog.ShowDialog();
-            
+
             if (!string.IsNullOrEmpty(openFileDialog.FileName))
             {
-                TextDocument.ReadText(textBox, openFileDialog.FileName);//turn into object method
+                textDocument = new TextDocument(openFileDialog.FileName, textBox);
+                textDocument.OpenText();
             }
             else
             {
@@ -51,14 +55,15 @@ namespace TextEditor
         private void SaveAsAction(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "text files (*.txt)|*.txt";
+            saveFileDialog.Filter = "Text Documents (*.txt)|*.txt";
             saveFileDialog.CheckPathExists = true;
             saveFileDialog.AddExtension = true;
-            saveFileDialog.Title = "Please Select Your File To Save Over";
+            saveFileDialog.Title = "Save As";
             saveFileDialog.ShowDialog();
             if (!string.IsNullOrEmpty(saveFileDialog.FileName))
             {
-                TextDocument.SaveText(textBox, saveFileDialog.FileName);//turn into object method
+                textDocument = new TextDocument(saveFileDialog.FileName, textBox);
+                textDocument.SaveText();
             }
             else
             {
@@ -74,60 +79,62 @@ namespace TextEditor
             saveFileDialog.CheckPathExists = true;
             saveFileDialog.CheckFileExists = true;
             saveFileDialog.AddExtension = true;
-            saveFileDialog.Title = "Please Select Your File To Save Over";
-
-            if(!string.IsNullOrEmpty(textBox.Text))//turn into object method
+            saveFileDialog.FileName = "untitled";
+            saveFileDialog.Title = "Save As";
+            textDocument = new TextDocument(textBox);
+            if (!string.IsNullOrEmpty(textDocument.TextInput.Text))
             {
-                MessageBox.Show("Please think about saving your data before creating a new document");
+                MessageBox.Show("Please think about saving your data before creating a new document!");
                 saveFileDialog.ShowDialog();
                 if (!string.IsNullOrEmpty(saveFileDialog.FileName))
                 {
-                    TextDocument.SaveText(textBox, saveFileDialog.FileName); //turn into object method
+                    textDocument = new TextDocument(saveFileDialog.FileName, textBox);
+                    textDocument.SaveText();
                 }
                 else
                 {
-                    TextDocument.NewTextFile(textBox);
+                    textDocument.NewTextFile();
                     return;
                 }
 
             }
-            TextDocument.NewTextFile(textBox);       
+            textDocument.NewTextFile();
         }
 
-        private void SaveFileAction(object sender, RoutedEventArgs e) //modify this bro
+        private void SaveFileAction(object sender, RoutedEventArgs e) 
         {
-            //this will actually need the document object, since we'll have to recall the filename 
-
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            //saveFileDialog.FileName = where we fill in the filename 
-
             saveFileDialog.Filter = "text files (*.txt)|*.txt";
             saveFileDialog.CheckPathExists = true;
             saveFileDialog.CheckFileExists = true;
             saveFileDialog.AddExtension = true;
+            saveFileDialog.FileName = "untitled";
             saveFileDialog.Title = "Please Select Your File To Save Over";
-
-            if (!string.IsNullOrEmpty(textBox.Text))//turn into object method
+            textDocument = new TextDocument(textBox);           
+            if (!string.IsNullOrEmpty(textDocument.TextInput.Text))
             {
-                MessageBox.Show("Please think about saving your data before creating a new document");
+                MessageBox.Show("Please think about saving your data before creating a new document!");
                 saveFileDialog.ShowDialog();
                 if (!string.IsNullOrEmpty(saveFileDialog.FileName))
                 {
-                    TextDocument.SaveText(textBox, saveFileDialog.FileName); //turn into object method
+                    textDocument = new TextDocument(saveFileDialog.FileName, textBox);
+                    textDocument.SaveText();
                 }
                 else
                 {
-                    TextDocument.NewTextFile(textBox);
+                    textDocument.NewTextFile();
                     return;
                 }
 
             }
-            TextDocument.NewTextFile(textBox);
+            textDocument.NewTextFile();
+            return;
         }
 
 
         private void CloseCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
+            // this.OnClosing
             this.Close();
 
         }
@@ -142,6 +149,19 @@ namespace TextEditor
             this.WindowState = WindowState.Normal;
             return;
         }
-
+        void DataWindow_Closing(object sender, CancelEventArgs e)
+        {
+            MessageBox.Show("Closing called");
+         //   if (this.isDataDirty)
+          //  {
+                MessageBoxResult result =
+                  MessageBox.Show("save", "Data App", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.No)
+                {
+                    // If user doesn't want to close, cancel closure
+                    e.Cancel = true;
+                }
+           // }
+        }
     }
 }

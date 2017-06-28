@@ -12,21 +12,46 @@ namespace TextEditor
 
     class TextDocument
     {
+        string _pathName;
+        TextBox _textInput;
 
-        static public void ReadText(TextBox textBox, string PathName)
+        public TextDocument(string PathName, TextBox TextInput)
         {
-            textBox.Text = File.ReadAllText(PathName);
-          
+            _pathName = PathName;
+            _textInput = TextInput;
         }
 
-        static public void SaveText(TextBox textBox, string PathName)
+        public TextDocument(TextBox TextInput)
         {
-           File.WriteAllText(PathName, textBox.Text);
+            _textInput = TextInput;
         }
 
-        static public void NewTextFile(TextBox textBox)
+        public void OpenText()
         {
-            textBox.Text = string.Empty;
+            TextInput.Text = File.ReadAllText(PathName);
         }
+
+        public void SaveText()
+        {
+            File.WriteAllText(PathName, TextInput.Text);
+        }
+
+        public void NewTextFile()
+        {
+            TextInput.Text = string.Empty;
+        }
+
+        public string PathName
+        {
+            get { return _pathName; }
+            set { _pathName = value; }
+        }
+
+        public TextBox TextInput
+        {
+            get { return _textInput; }
+            set { _textInput = value; }
+        }
+
     }
 }
