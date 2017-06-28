@@ -22,7 +22,8 @@ namespace TextEditor
     /// </summary> http://www.wpf-tutorial.com/common-interface-controls/menu-control/
     public partial class MainWindow : Window
     {
-        TextDocument textDocument;
+        TextDocument textDocument = null;
+        TextDocument loadedTextDocument = null;
 
         public MainWindow()
         {
@@ -40,10 +41,13 @@ namespace TextEditor
             openFileDialog.Title = "Please Select Your File";
             openFileDialog.ShowDialog();
 
+
             if (!string.IsNullOrEmpty(openFileDialog.FileName))
             {
                 textDocument = new TextDocument(openFileDialog.FileName, textBox);
+                loadedTextDocument = new TextDocument(openFileDialog.FileName, textBox);
                 textDocument.OpenText();
+                loadedTextDocument.ReadText();
             }
             else
             {
@@ -134,9 +138,7 @@ namespace TextEditor
 
         private void CloseCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
-            // this.OnClosing
-            this.Close();
-
+            Close();
         }
 
         private void MaximizedScreenHandler(object sender, ExecutedRoutedEventArgs e)
@@ -151,17 +153,40 @@ namespace TextEditor
         }
         void DataWindow_Closing(object sender, CancelEventArgs e)
         {
-            MessageBox.Show("Closing called");
-         //   if (this.isDataDirty)
-          //  {
+            //textDocument = new TextDocument(textBox);           
+   //         MessageBox.Show(testes.ToString());
+ //           MessageBox.Show(textDocument.TextInput.Text);
+     //       MessageBox.Show(loadedTextDocument.CurrentText);
+            if(textDocument == null)
+            {
+                return;
+            }
+
+            if (System.String.Compare(textDocument.TextInput.Text, loadedTextDocument.CurrentText) != 0)
+            {
                 MessageBoxResult result =
-                  MessageBox.Show("save", "Data App", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                if (result == MessageBoxResult.No)
+                  MessageBox.Show("Do you wish to save your progress?", "Save Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
                 {
-                    // If user doesn't want to close, cancel closure
-                    e.Cancel = true;
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    saveFileDialog.Filter = "Text Documents (*.txt)|*.txt";
+                    saveFileDialog.CheckPathExists = true;
+                    saveFileDialog.AddExtension = true;
+                    saveFileDialog.Title = "Save As";
+                    saveFileDialog.ShowDialog();
+                    if (!string.IsNullOrEmpty(saveFileDialog.FileName))
+                    {
+                        textDocument = new TextDocument(saveFileDialog.FileName, textBox);
+                        textDocument.SaveText();
+                    }
+                    else
+                    {
+                        return;
+                    }
+
                 }
-           // }
+                return;
+            }
         }
     }
 }
