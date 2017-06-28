@@ -31,12 +31,16 @@ namespace TextEditor
         //https://msdn.microsoft.com/en-us/library/system.windows.messageboximage.aspx
         //https://msdn.microsoft.com/en-us/library/system.windows.messagebox(v=vs.110).aspx
 
+        //do a check for input file name
+        //fix modularity of methods, DRY
+        //figure out the noal coalescene operating you dunce
+
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void OpenAction(object sender, RoutedEventArgs e)
+        private void OpenAction(object sender, RoutedEventArgs e) //do a check if text is in the textbox for saving?
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = false;
@@ -60,7 +64,7 @@ namespace TextEditor
             }
         }
 
-        private void SaveAsAction(object sender, RoutedEventArgs e)
+        private void SaveAsAction(object sender, RoutedEventArgs e) // input the filename if doc is already created
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Text Documents (*.txt)|*.txt";
@@ -84,13 +88,19 @@ namespace TextEditor
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "text files (*.txt)|*.txt";
             saveFileDialog.CheckPathExists = true;
-
             saveFileDialog.AddExtension = true;
-            saveFileDialog.FileName = "untitled";
+            if(textDocument != null)
+            {
+                saveFileDialog.FileName = textDocument.PathName;
+            }
+            else
+            {
+                saveFileDialog.FileName = "untitled";
+            }
             saveFileDialog.Title = "Please Select Your File To Save Over";
             textDocument = new TextDocument(saveFileDialog.FileName, textBox);
             MessageBox.Show(saveFileDialog.FileName);
-            if (!string.IsNullOrEmpty(textDocument.TextInput.Text))
+            if (textDocument.PathName == "untitled")
             {
                 MessageBox.Show("Please think about saving your data before creating a new document!");
                 saveFileDialog.ShowDialog();
@@ -105,7 +115,7 @@ namespace TextEditor
             return;
         }
 
-        private void NewFileAction(object sender, RoutedEventArgs e)
+        private void NewFileAction(object sender, RoutedEventArgs e)//check if the object exists first before using untitled
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "text files (*.txt)|*.txt";
@@ -151,7 +161,7 @@ namespace TextEditor
         }
         void DataWindow_Closing(object sender, CancelEventArgs e)
         {
-            if(textDocument == null)
+            if(textDocument == null || loadedTextDocument == null)
             {
                 return;
             }
