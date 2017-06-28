@@ -125,7 +125,12 @@ namespace TextEditor
             saveFileDialog.FileName = "untitled";
             saveFileDialog.Title = "Save As";
             textDocument = new TextDocument(textBox);
-            if (!string.IsNullOrEmpty(textDocument.TextInput.Text))
+            if(loadedTextDocument == null)
+            {
+                textDocument.NewTextFile();
+                return;
+            }
+            if (System.String.Compare(textDocument.TextInput.Text, loadedTextDocument.CurrentText) != 0)
             {
                 MessageBox.Show("Please think about saving your data before creating a new document!");
                 saveFileDialog.ShowDialog();
@@ -139,7 +144,6 @@ namespace TextEditor
                     textDocument.NewTextFile();
                     return;
                 }
-
             }
             textDocument.NewTextFile();
         }  

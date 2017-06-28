@@ -6,23 +6,120 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TextEditor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="480" Width="640" MinHeight="480" MinWidth="640">
+        Title="TextPad" Height="480" Width="640" MinHeight="480" MinWidth="640" Icon="cPic.ico">
+  <!--  <Window.Resources>
+        <RoutedUICommand x:Key="cmd0"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmd1"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmd2"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmd3"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmd4"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmd5"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmd6"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmd7"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmd8"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmd9"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmdDivision"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmdMultiplication"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmdSubtraction"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmdAddition"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmdEquation"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmdDot"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmdSquareRoot"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmdClearEntry"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmdNegative"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmdFullScreen"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmdCloseApplication"></RoutedUICommand>
+
+
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource cmd0}" Executed="ZeroClick"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmd1}" Executed="OneClick"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmd2}" Executed="TwoClick"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmd3}" Executed="ThreeClick"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmd4}" Executed="FourClick"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmd5}" Executed="FiveClick"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmd6}" Executed="SixClick"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmd7}" Executed="SevenClick"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmd8}" Executed="EightClick"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmd9}" Executed="NineClick"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmdDivision}" Executed="Division"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmdMultiplication}" Executed="Multiplication"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmdSubtraction}" Executed="Subtraction"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmdAddition}" Executed="Addition"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmdEquation}" Executed="Equation"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmdDot}" Executed="DotClick"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmdSquareRoot}" Executed="SquareRoot"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmdClearEntry}" Executed="ClearEntry"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmdCloseApplication}" Executed="CloseCommandHandler"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmdFullScreen}" Executed="MaximizedScreenHandler"></CommandBinding>
+        <CommandBinding Command= "{StaticResource cmdNegative}" Executed="NegativeClick"></CommandBinding>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="NumPad0" Command ="{StaticResource cmd0}"  />
+        <KeyBinding Key="NumPad1" Command ="{StaticResource cmd1}"  />
+        <KeyBinding Key="NumPad2" Command ="{StaticResource cmd2}"  />
+        <KeyBinding Key="NumPad3" Command ="{StaticResource cmd3}"  />
+        <KeyBinding Key="NumPad4" Command ="{StaticResource cmd4}"  />
+        <KeyBinding Key="NumPad5" Command ="{StaticResource cmd5}"  />
+        <KeyBinding Key="NumPad6" Command ="{StaticResource cmd6}"  />
+        <KeyBinding Key="NumPad7" Command ="{StaticResource cmd7}"  />
+        <KeyBinding Key="NumPad8" Command ="{StaticResource cmd8}"  />
+        <KeyBinding Key="NumPad9" Command ="{StaticResource cmd9}"  />
+
+        <KeyBinding Key="Return" Command ="{StaticResource cmdEquation}"  />
+        <KeyBinding Key="Divide" Command ="{StaticResource cmdDivision}"  />
+        <KeyBinding Key="Multiply" Command ="{StaticResource cmdMultiplication}"  />
+        <KeyBinding Key="Decimal" Command ="{StaticResource cmdDot}"  />
+        <KeyBinding Key="Add" Command ="{StaticResource cmdAddition}"  />
+        <KeyBinding Key="Backspace" Command ="{StaticResource cmdClearEntry}"  />
+        <KeyBinding Key="Decimal" Modifiers="Ctrl" Command ="{StaticResource cmdClearEntry}"  />
+
+        <KeyBinding Key="Divide" Modifiers="Ctrl" Command ="{StaticResource cmdSquareRoot}"  />
+        <KeyBinding Key="Subtract" Command ="{StaticResource cmdSubtraction}"  />
+        <KeyBinding Key="Subtract" Modifiers="Ctrl" Command ="{StaticResource cmdNegative}"  />
+
+        <KeyBinding Key="Q" Command="{StaticResource cmdCloseApplication}"></KeyBinding>
+        <KeyBinding Key="W" Modifiers="Ctrl" Command="{StaticResource cmdCloseApplication}"></KeyBinding>
+        <KeyBinding Key="F" Command="{StaticResource cmdFullScreen}"></KeyBinding>
+
+
+        <KeyBinding Key="D0" Command ="{StaticResource cmd0}"  />
+        <KeyBinding Key="D1" Command ="{StaticResource cmd1}"  />
+        <KeyBinding Key="D2" Command ="{StaticResource cmd2}"  />
+        <KeyBinding Key="D3" Command ="{StaticResource cmd3}"  />
+        <KeyBinding Key="D4" Command ="{StaticResource cmd4}"  />
+        <KeyBinding Key="D5" Command ="{StaticResource cmd5}"  />
+        <KeyBinding Key="D6" Command ="{StaticResource cmd6}"  />
+        <KeyBinding Key="D7" Command ="{StaticResource cmd7}"  />
+        <KeyBinding Key="D8" Command ="{StaticResource cmd8}"  />
+        <KeyBinding Key="D9" Command ="{StaticResource cmd9}"  />
+
+        <KeyBinding Key="OemQuestion" Command ="{StaticResource cmdDivision}"  />
+        <KeyBinding Key="D8" Modifiers="Shift" Command ="{StaticResource cmdMultiplication}"  />
+        <KeyBinding Key= "OemPeriod" Command ="{StaticResource cmdDot}"  />
+        <KeyBinding Key="Return"  Modifiers="Shift" Command ="{StaticResource cmdAddition}"  />
+        <KeyBinding Key="OemMinus" Command ="{StaticResource cmdSubtraction}"  />
+        <KeyBinding Key="OemQuestion" Modifiers="Shift" Command ="{StaticResource cmdSquareRoot}"  />
+        <KeyBinding Key="OemMinus"  Modifiers="Shift" Command ="{StaticResource cmdNegative}"  />
+
+
+
+    </Window.InputBindings> -->
     <Grid>
-        
-        
         <DockPanel>
             <Menu DockPanel.Dock="Top" >
                 <MenuItem Header="_File">
-                    <MenuItem Header="_New" Click="NewFileAction" InputGestureText="Ctrl+F"  />
+                    <MenuItem Header="_New" Click="NewFileAction" InputGestureText="Ctrl+E" Icon="cPic.ico" />
                     <!-- Click="AppExit_Click" -->
-                    <MenuItem Header="_Open" Click="OpenAction"  />
-                    <MenuItem Header="_Save" Click="SaveFileAction"/>
-                    <MenuItem Header="_Save As" Click="SaveAsAction" />
+                    <MenuItem Header="_Open" Click="OpenAction" InputGestureText="Ctrl+O" Icon="cPic.ico"/>
+                    <MenuItem Header="_Save" Click="SaveFileAction" InputGestureText="Ctrl+S" Icon="cPic.ico"/>
+                    <MenuItem Header="_Save As" Click="SaveAsAction" InputGestureText="Ctrl+D" Icon="cPic.ico"/>
                     <Separator />
-                    <MenuItem Header="_Exit" />
+                    <MenuItem Header="_Exit" InputGestureText="Ctrl+W" Icon="cPic.ico"/>
                 </MenuItem>
                 <MenuItem Header="_Help">
-                    <MenuItem Header="_About" />
+                    <MenuItem Header="_About" Icon="cPic.ico"/>
                 </MenuItem>
             </Menu>
             
