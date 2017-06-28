@@ -25,6 +25,12 @@ namespace TextEditor
         TextDocument textDocument = null;
         TextDocument loadedTextDocument = null;
 
+        //http://www.wpf-tutorial.com/tabcontrol/using-the-tabcontrol/
+        //http://www.wpf-tutorial.com/common-interface-controls/menu-control/
+        //http://www.wpf-tutorial.com/dialogs/the-messagebox/
+        //https://msdn.microsoft.com/en-us/library/system.windows.messageboximage.aspx
+        //https://msdn.microsoft.com/en-us/library/system.windows.messagebox(v=vs.110).aspx
+
         public MainWindow()
         {
             InitializeComponent();
