@@ -47,7 +47,6 @@ namespace TextEditor
             _currentText = File.ReadAllText(PathName);
         }
 
-
         public void SaveText()
         {
             File.WriteAllText(PathName, TextInput.Text);

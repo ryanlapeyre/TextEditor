@@ -41,7 +41,6 @@ namespace TextEditor
             openFileDialog.Title = "Please Select Your File";
             openFileDialog.ShowDialog();
 
-
             if (!string.IsNullOrEmpty(openFileDialog.FileName))
             {
                 textDocument = new TextDocument(openFileDialog.FileName, textBox);
@@ -53,7 +52,6 @@ namespace TextEditor
             {
                 return;
             }
-            
         }
 
         private void SaveAsAction(object sender, RoutedEventArgs e)
@@ -73,7 +71,32 @@ namespace TextEditor
             {
                 return;    
             }
+        }
 
+        private void SaveFileAction(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "text files (*.txt)|*.txt";
+            saveFileDialog.CheckPathExists = true;
+
+            saveFileDialog.AddExtension = true;
+            saveFileDialog.FileName = "untitled";
+            saveFileDialog.Title = "Please Select Your File To Save Over";
+            textDocument = new TextDocument(saveFileDialog.FileName, textBox);
+            MessageBox.Show(saveFileDialog.FileName);
+            if (!string.IsNullOrEmpty(textDocument.TextInput.Text))
+            {
+                MessageBox.Show("Please think about saving your data before creating a new document!");
+                saveFileDialog.ShowDialog();
+                if (!string.IsNullOrEmpty(saveFileDialog.FileName))
+                {
+                    textDocument = new TextDocument(saveFileDialog.FileName, textBox);
+                    textDocument.SaveText();
+                }
+
+            }
+            textDocument.SaveText();
+            return;
         }
 
         private void NewFileAction(object sender, RoutedEventArgs e)
@@ -103,38 +126,7 @@ namespace TextEditor
 
             }
             textDocument.NewTextFile();
-        }
-
-        private void SaveFileAction(object sender, RoutedEventArgs e) 
-        {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "text files (*.txt)|*.txt";
-            saveFileDialog.CheckPathExists = true;
-            saveFileDialog.CheckFileExists = true;
-            saveFileDialog.AddExtension = true;
-            saveFileDialog.FileName = "untitled";
-            saveFileDialog.Title = "Please Select Your File To Save Over";
-            textDocument = new TextDocument(textBox);           
-            if (!string.IsNullOrEmpty(textDocument.TextInput.Text))
-            {
-                MessageBox.Show("Please think about saving your data before creating a new document!");
-                saveFileDialog.ShowDialog();
-                if (!string.IsNullOrEmpty(saveFileDialog.FileName))
-                {
-                    textDocument = new TextDocument(saveFileDialog.FileName, textBox);
-                    textDocument.SaveText();
-                }
-                else
-                {
-                    textDocument.NewTextFile();
-                    return;
-                }
-
-            }
-            textDocument.NewTextFile();
-            return;
-        }
-
+        }  
 
         private void CloseCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
@@ -153,15 +145,10 @@ namespace TextEditor
         }
         void DataWindow_Closing(object sender, CancelEventArgs e)
         {
-            //textDocument = new TextDocument(textBox);           
-   //         MessageBox.Show(testes.ToString());
- //           MessageBox.Show(textDocument.TextInput.Text);
-     //       MessageBox.Show(loadedTextDocument.CurrentText);
             if(textDocument == null)
             {
                 return;
             }
-
             if (System.String.Compare(textDocument.TextInput.Text, loadedTextDocument.CurrentText) != 0)
             {
                 MessageBoxResult result =
@@ -183,7 +170,6 @@ namespace TextEditor
                     {
                         return;
                     }
-
                 }
                 return;
             }
