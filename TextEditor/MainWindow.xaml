@@ -10,14 +10,26 @@
    <Window.Resources>
         <RoutedUICommand x:Key="cmdFullScreen"></RoutedUICommand>
         <RoutedUICommand x:Key="cmdCloseApplication"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmdNew"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmdOpen"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmdSave"></RoutedUICommand>
+        <RoutedUICommand x:Key="cmdSaveAs"></RoutedUICommand>
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="{StaticResource cmdCloseApplication}" Executed="CloseCommandHandler"></CommandBinding>
         <CommandBinding Command="{StaticResource cmdFullScreen}" Executed="MaximizedScreenHandler"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmdNew}" Executed="NewFileAction"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmdSave}" Executed="SaveFileAction"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmdSaveAs}" Executed="SaveAsAction"></CommandBinding>
+        <CommandBinding Command="{StaticResource cmdOpen}" Executed="OpenAction"></CommandBinding>
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Key="W" Modifiers="Ctrl" Command="{StaticResource cmdCloseApplication}"></KeyBinding>
-        <KeyBinding Key="F" Modifiers="Ctrl" Command="{StaticResource cmdFullScreen}"></KeyBinding>
+        <KeyBinding Key="F" Modifiers="Shift" Command="{StaticResource cmdFullScreen}"></KeyBinding>
+        <KeyBinding Key="E" Modifiers="Ctrl" Command="{StaticResource cmdNew}"></KeyBinding>
+        <KeyBinding Key="R" Modifiers="Ctrl" Command="{StaticResource cmdOpen}"></KeyBinding>
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="{StaticResource cmdSave}"></KeyBinding>
+        <KeyBinding Key="D" Modifiers="Ctrl" Command="{StaticResource cmdSaveAs}"></KeyBinding>
     </Window.InputBindings>
     <Grid>
         <DockPanel>
