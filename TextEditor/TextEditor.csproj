@@ -95,7 +95,23 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="cPic.ico" />
+    <Resource Include="new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="saveAss.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="exit.png" />
+    <Resource Include="me.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="trueSave.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="windows.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
