@@ -8,8 +8,6 @@ using System.Windows.Controls;
 
 namespace TextEditor
 {
-
-
     class TextDocument
     {
         string _pathName;
@@ -74,7 +72,5 @@ namespace TextEditor
             get { return _currentText; }
             set { _currentText = value; }
         }
-
-
     }
 }

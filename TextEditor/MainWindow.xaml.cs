@@ -26,7 +26,6 @@ namespace TextEditor
         TextDocument loadedTextDocument = null;
 
         //http://www.wpf-tutorial.com/tabcontrol/using-the-tabcontrol/
-        //http://www.wpf-tutorial.com/common-interface-controls/menu-control/
         //http://www.wpf-tutorial.com/dialogs/the-messagebox/
         //https://msdn.microsoft.com/en-us/library/system.windows.messageboximage.aspx
         //https://msdn.microsoft.com/en-us/library/system.windows.messagebox(v=vs.110).aspx
@@ -102,7 +101,6 @@ namespace TextEditor
             MessageBox.Show(saveFileDialog.FileName);
             if (textDocument.PathName == "untitled")
             {
-                MessageBox.Show("Please think about saving your data before creating a new document!");
                 saveFileDialog.ShowDialog();
                 if (!string.IsNullOrEmpty(saveFileDialog.FileName))
                 {
@@ -148,10 +146,16 @@ namespace TextEditor
             textDocument.NewTextFile();
         }  
 
-        private void CloseCommandHandler(object sender, ExecutedRoutedEventArgs e)
+ /*       private void CloseCommandHandler(object sender, ExecutedRoutedEventArgs e)
         {
             Close();
         }
+        */
+        private void CloseCommandHandler(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
 
         private void MaximizedScreenHandler(object sender, ExecutedRoutedEventArgs e)
         {
@@ -165,7 +169,26 @@ namespace TextEditor
         }
         void DataWindow_Closing(object sender, CancelEventArgs e)
         {
-            if(textDocument == null || loadedTextDocument == null)
+            if (!string.IsNullOrWhiteSpace(textBox.Text) && loadedTextDocument == null)
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Text Documents (*.txt)|*.txt";
+                saveFileDialog.CheckPathExists = true;
+                saveFileDialog.AddExtension = true;
+                saveFileDialog.Title = "Save As";
+                saveFileDialog.ShowDialog();
+                if (!string.IsNullOrEmpty(saveFileDialog.FileName))
+                {
+                    textDocument = new TextDocument(saveFileDialog.FileName, textBox);
+                    textDocument.SaveText();
+                }
+                else
+                {
+                    return;
+                }
+
+            }
+            if (textDocument == null || loadedTextDocument == null)
             {
                 return;
             }

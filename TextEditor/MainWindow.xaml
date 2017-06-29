@@ -44,7 +44,7 @@
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
-                    <MenuItem Header="_Exit" InputGestureText="Ctrl+W">
+                    <MenuItem Header="_Exit" InputGestureText="Ctrl+W" Click="CloseCommandHandler">
                         <MenuItem.Icon>
                             <Image Source="exit.png"  />
                         </MenuItem.Icon>
