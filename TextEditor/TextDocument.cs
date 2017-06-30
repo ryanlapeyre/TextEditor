@@ -47,7 +47,7 @@ namespace TextEditor
 
         public void SaveText()
         {
-            File.WriteAllText(PathName, TextInput.Text); //error happened here?
+            File.WriteAllText(PathName, TextInput.Text); 
         }
 
         public void NewTextFile()

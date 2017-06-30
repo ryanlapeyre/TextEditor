@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TextEditor"
         mc:Ignorable="d"
-        Title="TextPad" Height="480" Width="640" MinHeight="480" MinWidth="640" Icon="windows.ico">
+        Title="TextPad - untitled" Height="480" Width="640" MinHeight="480" MinWidth="640" Icon="windows.ico">
    <Window.Resources>
         <RoutedUICommand x:Key="cmdFullScreen"></RoutedUICommand>
         <RoutedUICommand x:Key="cmdCloseApplication"></RoutedUICommand>
@@ -63,7 +63,7 @@
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="_Help">
-                    <MenuItem Header="_About">
+                    <MenuItem Header="_About" Click="AboutMeAction">
                         <MenuItem.Icon>
                             <Image Source="me.png"  />
                         </MenuItem.Icon>
