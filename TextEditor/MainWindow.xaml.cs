@@ -153,7 +153,7 @@ namespace TextEditor
                 if (!string.IsNullOrEmpty(openFileDialog.FileName))
                 {
                     textDocument = new TextDocument(openFileDialog.FileName, textBox);
-                    backupTextDocument = new TextDocument(textBox.Text);
+                    backupTextDocument = new TextDocument(openFileDialog.FileName, textBox.Text);
                     textDocument.OpenText();
                     backupTextDocument.ReadText();
                     ChangeApplicationTitle(Path.GetFileNameWithoutExtension(textDocument.PathName));
@@ -168,7 +168,7 @@ namespace TextEditor
             if (!string.IsNullOrEmpty(openFileDialog.FileName))
             {
                 textDocument = new TextDocument(openFileDialog.FileName, textBox);
-                backupTextDocument = new TextDocument(textBox.Text);
+                backupTextDocument = new TextDocument(openFileDialog.FileName, textBox.Text);
                 textDocument.OpenText();
                 backupTextDocument.ReadText();
                 ChangeApplicationTitle(Path.GetFileNameWithoutExtension(textDocument.PathName));
