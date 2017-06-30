@@ -1,51 +1,39 @@
 ﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.IO; //only used to get filepath
 
 namespace TextEditor
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary> http://www.wpf-tutorial.com/common-interface-controls/menu-control/
+    /*  Ryan Lapeyre
+     *  Assignment 4
+     *  TextEditor 
+     */
+     //http://www.wpf-tutorial.com/tabcontrol/using-the-tabcontrol/ /\/ for next time
+
+
     public partial class MainWindow : Window
     {
         TextDocument textDocument = null;
-        TextDocument loadedTextDocument = null;
+        TextDocument backupTextDocument = null;
         const string APP_TITLE = "TextPad";
         const string DEFAULT_FILENAME = "untitled";
         const string OPEN_ACTION_NAME = "Open";
         const string SAVE_AS_NAME = "Save As";
         const string FILE_FILTER = "Text Documents (*.txt)|*.txt";
 
-        //http://www.wpf-tutorial.com/tabcontrol/using-the-tabcontrol/
-        //http://www.wpf-tutorial.com/dialogs/the-messagebox/
-        //https://msdn.microsoft.com/en-us/library/system.windows.messageboximage.aspx
-        //https://msdn.microsoft.com/en-us/library/system.windows.messagebox(v=vs.110).aspx
-
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void OpenAction(object sender, RoutedEventArgs e) //do a check if text is in the textbox for saving?
+        private void OpenAction(object sender, RoutedEventArgs e) 
         {
             OpenFunction();
         }
 
-        private void SaveAsAction(object sender, RoutedEventArgs e) // input the filename if doc is already created
+        private void SaveAsAction(object sender, RoutedEventArgs e) 
         {
             SaveAsFunction();
         }
@@ -55,7 +43,7 @@ namespace TextEditor
             SaveFunction();
         }
 
-        private void NewFileAction(object sender, RoutedEventArgs e)//check if the object exists first before using untitled
+        private void NewFileAction(object sender, RoutedEventArgs e)
         {
             NewFileFunction();
         }
@@ -78,35 +66,37 @@ namespace TextEditor
 
         void DataWindow_Closing(object sender, CancelEventArgs e)
         {
-            if(string.IsNullOrWhiteSpace(textBox.Text))
+            try
             {
-                return;
-            }
-            if (!string.IsNullOrWhiteSpace(textBox.Text) && loadedTextDocument == null)
-            {
-                SaveAsFunction();
-                return;
-            }
-            if (textDocument == null && loadedTextDocument == null)
-            {
-                return;
-            }
-            if (System.String.Compare(textDocument.TextInput.Text, loadedTextDocument.CurrentText) != 0 && !string.IsNullOrEmpty(textDocument.TextInput.Text))
-            {
-                MessageBoxResult result =
-                  MessageBox.Show("Do you wish to save your progress?", "Save Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                if (result == MessageBoxResult.Yes)
+                textDocument = new TextDocument(textBox);
+                if (!string.IsNullOrWhiteSpace(textDocument.TextInput.Text) && backupTextDocument == null)
                 {
-                    SaveAsFunction();
+                    SaveWarning();
+                    return;
                 }
+                if (System.String.Compare(textDocument.TextInput.Text, backupTextDocument.CurrentText, false) != 0 && !string.IsNullOrEmpty(textDocument.TextInput.Text))
+                {
+                    SaveWarning();
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(textDocument.TextInput.Text) && backupTextDocument == null)
+                {
+                    return;
+                }
+                if (backupTextDocument == null)
+                {
+                    return;
+                }
+            }
+            catch(System.NullReferenceException) //whenever i would start a new document and try and close the app, null refs would happen. strange...
+            {
                 return;
             }
-            return;
         }
 
         private void AboutMeAction(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("TextPad was made by Ryan Lapeyre for IT4400 SS2017. When not coding, Ryan is a nerd who plays videogames.", "AboutMe", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("TextPad was made by Ryan Lapeyre for IT4400 SS2017. When not coding, Ryan is a nerd who plays videogames.", "AboutMe", MessageBoxButton.OK, MessageBoxImage.None);
             return;
         }
 
@@ -119,15 +109,70 @@ namespace TextEditor
             openFileDialog.CheckFileExists = true;
             openFileDialog.CheckPathExists = true;
             openFileDialog.Title = OPEN_ACTION_NAME;
-            openFileDialog.ShowDialog();
+            textDocument = new TextDocument(textBox);
 
+            if (!string.IsNullOrWhiteSpace(textDocument.TextInput.Text) && backupTextDocument == null)
+            {
+                SaveWarning();
+                openFileDialog.ShowDialog();
+                if (!string.IsNullOrEmpty(openFileDialog.FileName))
+                {
+                    textDocument = new TextDocument(openFileDialog.FileName, textBox);
+                    textDocument.OpenText();
+                    backupTextDocument = new TextDocument(openFileDialog.FileName, textBox.Text);
+                    backupTextDocument.ReadText();
+                    ChangeApplicationTitle(Path.GetFileNameWithoutExtension(textDocument.PathName));
+                    return;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            if(backupTextDocument == null)
+            {
+                openFileDialog.ShowDialog();
+                if (!string.IsNullOrEmpty(openFileDialog.FileName))
+                {
+                    textDocument = new TextDocument(openFileDialog.FileName, textBox);
+                    backupTextDocument = new TextDocument(openFileDialog.FileName, textBox.Text);
+                    textDocument.OpenText();
+                    backupTextDocument.ReadText();
+                    ChangeApplicationTitle(Path.GetFileNameWithoutExtension(textDocument.PathName));
+                    return;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            if (System.String.Compare(textDocument.TextInput.Text, backupTextDocument.CurrentText) != 0 && !string.IsNullOrEmpty(textDocument.TextInput.Text))
+            {
+                SaveWarning();
+                openFileDialog.ShowDialog();
+                if (!string.IsNullOrEmpty(openFileDialog.FileName))
+                {
+                    textDocument = new TextDocument(openFileDialog.FileName, textBox);
+                    backupTextDocument = new TextDocument(textBox.Text);
+                    textDocument.OpenText();
+                    backupTextDocument.ReadText();
+                    ChangeApplicationTitle(Path.GetFileNameWithoutExtension(textDocument.PathName));
+                    return;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            openFileDialog.ShowDialog();
             if (!string.IsNullOrEmpty(openFileDialog.FileName))
             {
                 textDocument = new TextDocument(openFileDialog.FileName, textBox);
-                loadedTextDocument = new TextDocument(openFileDialog.FileName, textBox);
+                backupTextDocument = new TextDocument(textBox.Text);
                 textDocument.OpenText();
-                loadedTextDocument.ReadText();
+                backupTextDocument.ReadText();
                 ChangeApplicationTitle(Path.GetFileNameWithoutExtension(textDocument.PathName));
+                return;
             }
             else
             {
@@ -137,7 +182,7 @@ namespace TextEditor
 
         private void ChangeApplicationTitle(string PathName)
         {
-            if(string.IsNullOrEmpty(PathName))
+            if (string.IsNullOrEmpty(PathName))
             {
                 PathName = DEFAULT_FILENAME;
             }
@@ -152,19 +197,20 @@ namespace TextEditor
             saveFileDialog.CheckPathExists = true;
             saveFileDialog.AddExtension = true;
             saveFileDialog.Title = SAVE_AS_NAME;
-            if (textDocument == null)
+            if (textDocument == null || string.IsNullOrWhiteSpace(textDocument.PathName))
             {
+                MessageBox.Show(textDocument.PathName);
                 saveFileDialog.FileName = DEFAULT_FILENAME;
             }
             else
             {
                 saveFileDialog.FileName = Path.GetFileNameWithoutExtension(textDocument.PathName);
             }
-
             saveFileDialog.ShowDialog();
             if (!string.IsNullOrEmpty(saveFileDialog.FileName))
             {
                 textDocument = new TextDocument(saveFileDialog.FileName, textBox);
+                backupTextDocument = new TextDocument(textBox.Text);
                 textDocument.SaveText();
                 ChangeApplicationTitle(Path.GetFileNameWithoutExtension(textDocument.PathName));
             }
@@ -190,12 +236,14 @@ namespace TextEditor
             }
             saveFileDialog.Title = SAVE_AS_NAME;
             textDocument = new TextDocument(saveFileDialog.FileName, textBox);
+            backupTextDocument = new TextDocument(textBox.Text);
             if (textDocument.PathName == DEFAULT_FILENAME)
             {
                 saveFileDialog.ShowDialog();
                 if (!string.IsNullOrEmpty(saveFileDialog.FileName))
                 {
                     textDocument = new TextDocument(saveFileDialog.FileName, textBox);
+                    backupTextDocument = new TextDocument(textBox.Text);
                     textDocument.SaveText();
                     ChangeApplicationTitle(Path.GetFileNameWithoutExtension(textDocument.PathName));
                 }
@@ -203,7 +251,7 @@ namespace TextEditor
             textDocument.SaveText();
             return;
         }
-        
+
         private void NewFileFunction()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -214,31 +262,33 @@ namespace TextEditor
             saveFileDialog.FileName = DEFAULT_FILENAME;
             saveFileDialog.Title = SAVE_AS_NAME;
             textDocument = new TextDocument(textBox);
-            if (loadedTextDocument == null)
+            if (backupTextDocument == null)
             {
+               if(!string.IsNullOrWhiteSpace(textDocument.TextInput.Text))
+                {
+                    SaveWarning();
+                }
                 textDocument.NewTextFile();
-                ChangeApplicationTitle(string.Empty);
+                ChangeApplicationTitle(DEFAULT_FILENAME);
                 return;
             }
-            if (System.String.Compare(textDocument.TextInput.Text, loadedTextDocument.CurrentText) != 0 && !string.IsNullOrEmpty(textDocument.TextInput.Text))
+            if (System.String.Compare(textDocument.TextInput.Text, backupTextDocument.CurrentText) != 0 && !string.IsNullOrEmpty(textDocument.TextInput.Text))
             {
-                MessageBox.Show("Please think about saving your data before creating a new document!");
-                saveFileDialog.ShowDialog();
-                if (!string.IsNullOrEmpty(saveFileDialog.FileName))
-                {
-                    textDocument = new TextDocument(saveFileDialog.FileName, textBox);
-                    textDocument.SaveText();
-                    ChangeApplicationTitle(Path.GetFileNameWithoutExtension(textDocument.PathName));
-                }
-                else
-                {
-                    textDocument.NewTextFile();
-                    ChangeApplicationTitle(string.Empty);
-                    return;
-                }
+                SaveWarning();
             }
             textDocument.NewTextFile();
-            ChangeApplicationTitle(string.Empty);
+            ChangeApplicationTitle(DEFAULT_FILENAME);
+            return;
         }
+
+        private void SaveWarning()
+        {
+            MessageBoxResult result = MessageBox.Show("Do you wish to save your progress?", "Save Warning", MessageBoxButton.YesNo, MessageBoxImage.None);
+            if (result == MessageBoxResult.Yes)
+            {
+                SaveAsFunction();
+            }
+        }
+
     }
 }
