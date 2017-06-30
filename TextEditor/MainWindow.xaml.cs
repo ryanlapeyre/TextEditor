@@ -199,7 +199,6 @@ namespace TextEditor
             saveFileDialog.Title = SAVE_AS_NAME;
             if (textDocument == null || string.IsNullOrWhiteSpace(textDocument.PathName))
             {
-                MessageBox.Show(textDocument.PathName);
                 saveFileDialog.FileName = DEFAULT_FILENAME;
             }
             else
